@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import ProfilUtilisateur
+from .models import Livre
 
 class RegisterSerializer(serializers.ModelSerializer):
     departement = serializers.CharField(write_only=True, required=True)
@@ -29,3 +30,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         ProfilUtilisateur.objects.create(user=user, departement=departement, filiere=filiere)  # type: ignore
         return user
+
+class LivreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Livre
+        fields = '__all__'

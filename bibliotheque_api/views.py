@@ -5,7 +5,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 from .serializers import RegisterSerializer
 from django.contrib.auth import authenticate
-
+from rest_framework import viewsets, permissions
+from .models import Livre
+from .serializers import LivreSerializer
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
@@ -36,3 +38,9 @@ class MeView(APIView):
             "username": user.username,
             "email": user.email,
         })
+
+class LivreViewSet(viewsets.ModelViewSet):
+    queryset = Livre.objects.all()
+    serializer_class = LivreSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
